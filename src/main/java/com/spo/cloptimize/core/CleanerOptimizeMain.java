@@ -3,6 +3,12 @@ package com.spo.cloptimize.core;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * @author jeyaprakash Ganesan
+ * This class calculates the number of senior and junior cleaners required 
+ * for the given number of structures each having a given number of rooms
+ *
+ */
 public class CleanerOptimizeMain {
 
 	private static HashMap[] cleanerData;
@@ -36,6 +42,12 @@ public class CleanerOptimizeMain {
 		}
 	}
 
+	/**
+	 * This method is the method that contains the business logic for the optimizer
+	 * @param roomsInStructures array of numbers of rooms in each structures
+	 * @param ccOfJuniors work capacity of juniors
+	 * @param ccOfSeniors work capacity of seniors
+	 */
 	public void calculateOptmizedCleanerCount(int[] roomsInStructures, int ccOfJuniors, int ccOfSeniors) {
 		for (int i = 0; i < roomsInStructures.length; i++) {
 			int roomsInEachStructure = roomsInStructures[i];
@@ -47,6 +59,12 @@ public class CleanerOptimizeMain {
 		}
 	}
 
+	/**
+	 * @param roomCount number of rooms 
+	 * @param ccOfJuniors work capacity of juniors
+	 * @param ccOfSeniors work capacity of seniors
+	 * @return hashmap of the count of seniors and juniors
+	 */
 	private HashMap<String, String> optimizeAndUpdateCount(int roomCount, int ccOfJuniors, int ccOfSeniors) {
 		HashMap<String, String> cleanerMap = new HashMap<String, String>();
 
@@ -69,10 +87,6 @@ public class CleanerOptimizeMain {
 							localJuniorsCount = (float) roomCount / ccOfJuniors;
 							localSeniorsCount--;
 						}
-//						if(roomCount % ccOfSeniors - ccOfJuniors == 0) {
-//							localSeniorsCount = (float)roomCount / ccOfSeniors;
-//							localJuniorsCount = 
-//						}
 					}
 				} else {
 					localJuniorsCount += (float) roomCount % ccOfSeniors / ccOfJuniors;
@@ -86,10 +100,14 @@ public class CleanerOptimizeMain {
 
 		cleanerMap.put("Juniors", String.valueOf(Math.round(localJuniorsCount)));
 		cleanerMap.put("Seniors", String.valueOf(Math.round(localSeniorsCount)));
-		cleanerMap.forEach((k, v) -> System.out.println("Item : " + k + " Count : " + v));
+		System.out.println("Number of Seniors and Juniors for the structure with rooms "+(roomCount+ccOfSeniors));
+		cleanerMap.forEach((k, v) -> System.out.println(k + " Count : " + v));
 		return cleanerMap;
 	}
 
+	/**
+	 * @return array of hashmap of seniors and juniors for each structures
+	 */
 	public static HashMap[] getCleanerData() {
 		return cleanerData;
 	}
